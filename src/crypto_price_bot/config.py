@@ -7,7 +7,7 @@ from typing import Literal
 from pydantic import Field, computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-DEFAULT_COINS: tuple[str, ...] = ("BTC", "ETH", "TON", "KAS", "_GRAM")
+DEFAULT_COINS: tuple[str, ...] = ("BTC", "ETH", "TONCOIN", "KAS", "_GRAM")
 
 
 def _parse_coins(raw: str) -> tuple[str, ...]:

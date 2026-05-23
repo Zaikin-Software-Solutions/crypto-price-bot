@@ -9,15 +9,15 @@ def _snapshot(items: dict[str, float]) -> PriceSnapshot:
 
 
 def test_renders_in_requested_order() -> None:
-    snap = _snapshot({"ETH": 3000.5, "BTC": 65000.4, "TON": 5.27})
-    msg = build_message(snap, order=("BTC", "ETH", "TON"))
-    assert msg == "• BTC: $65000\n• ETH: $3000\n• TON: $5.3"
+    snap = _snapshot({"ETH": 3000.5, "BTC": 65000.4, "TONCOIN": 5.27})
+    msg = build_message(snap, order=("BTC", "ETH", "TONCOIN"))
+    assert msg == "• BTC: $65000\n• ETH: $3000\n• TON: $5.27"
 
 
 def test_missing_coins_are_skipped_silently() -> None:
-    snap = _snapshot({"BTC": 65000.0, "TON": 5.27})
-    msg = build_message(snap, order=("BTC", "ETH", "TON", "KAS"))
-    assert msg == "• BTC: $65000\n• TON: $5.3"
+    snap = _snapshot({"BTC": 65000.0, "TONCOIN": 5.27})
+    msg = build_message(snap, order=("BTC", "ETH", "TONCOIN", "KAS"))
+    assert msg == "• BTC: $65000\n• TON: $5.27"
 
 
 def test_empty_snapshot_returns_empty_string() -> None:

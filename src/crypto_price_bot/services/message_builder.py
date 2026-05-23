@@ -11,7 +11,7 @@ from crypto_price_bot.domain.models import PriceSnapshot
 DEFAULT_FORMATS: Mapping[str, tuple[str, int]] = {
     "BTC": ("BTC", 0),
     "ETH": ("ETH", 0),
-    "TON": ("TON", 1),
+    "TONCOIN": ("TON", 2),
     "KAS": ("KSP", 4),
     "_GRAM": ("GRAM", 3),
     "CAS": ("CAS", 4),
@@ -21,7 +21,7 @@ DEFAULT_FORMATS: Mapping[str, tuple[str, int]] = {
 def build_message(
     snapshot: PriceSnapshot,
     *,
-    order: tuple[str, ...] = ("BTC", "ETH", "TON", "KAS", "_GRAM"),
+    order: tuple[str, ...] = ("BTC", "ETH", "TONCOIN", "KAS", "_GRAM"),
     formats: Mapping[str, tuple[str, int]] = DEFAULT_FORMATS,
 ) -> str:
     """Build the Telegram message body.

@@ -65,7 +65,7 @@ All settings come from environment variables (a `.env` file is read in dev).
 | `TELEGRAM_BOT_TOKEN`    | yes      | —                    | Bot token from @BotFather.                               |
 | `TELEGRAM_CHANNEL_ID`   | yes      | —                    | Channel id (e.g. `-1001234567890`) or `@channel`.        |
 | `LIVECOINWATCH_API_KEY` | yes      | —                    | LiveCoinWatch API key.                                   |
-| `COINS`                 | no       | `BTC,ETH,TON,KAS,_GRAM` | Comma-separated coin codes to publish, in order.      |
+| `COINS`                 | no       | `BTC,ETH,TONCOIN,KAS,_GRAM` | Comma-separated LiveCoinWatch coin codes to publish, in order. (LCW uses `TONCOIN`, not `TON`.) |
 | `PUBLISH_CRON`          | no       | `* * * * *`          | Cron expression (UTC) for publish schedule.              |
 | `HTTP_TIMEOUT_SECONDS`  | no       | `10`                 | Outgoing HTTP timeout for LiveCoinWatch.                 |
 | `LOG_LEVEL`             | no       | `INFO`               | `DEBUG` / `INFO` / `WARNING` / `ERROR`.                  |
