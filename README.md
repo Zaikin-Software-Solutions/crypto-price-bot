@@ -1,6 +1,10 @@
 # crypto-price-bot
 
 [![CI](https://github.com/Zaikin-Software-Solutions/crypto-price-bot/actions/workflows/ci.yml/badge.svg)](https://github.com/Zaikin-Software-Solutions/crypto-price-bot/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/Zaikin-Software-Solutions/crypto-price-bot?display_name=tag&sort=semver)](https://github.com/Zaikin-Software-Solutions/crypto-price-bot/releases)
+[![Image](https://ghcr-badge.egpl.dev/Zaikin-Software-Solutions/crypto-price-bot/latest_tag?trim=major&label=ghcr.io)](https://github.com/Zaikin-Software-Solutions/crypto-price-bot/pkgs/container/crypto-price-bot)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/downloads/)
 
 A small Telegram bot that periodically publishes cryptocurrency prices to a channel.
 
@@ -22,39 +26,67 @@ Public channel running this bot: [t.me/crypto_price_puls](https://t.me/crypto_pr
 - Graceful shutdown on `SIGTERM` / `SIGINT`.
 - Strict `mypy`, `ruff` lint + format, `pytest` test suite, GitHub Actions CI, multi-stage Docker.
 
-## Quickstart
+## Prerequisites (all install methods)
 
-### Prerequisites
+- A Telegram bot token from [@BotFather](https://t.me/BotFather)
+- The numeric id of a Telegram channel where the bot is admin (e.g. `-1001234567890`)
+- A free LiveCoinWatch API key from <https://www.livecoinwatch.com/tools/api>
 
-- Python 3.12+
-- [uv](https://docs.astral.sh/uv/) (`curl -LsSf https://astral.sh/uv/install.sh | sh`)
-- A Telegram bot token from [@BotFather](https://t.me/BotFather) and your channel id
-- A LiveCoinWatch API key
+## Install
 
-### Local run
+### A. Prebuilt image from GHCR (recommended for servers)
+
+CI publishes a multi-arch (`linux/amd64` + `linux/arm64`) image to
+`ghcr.io/zaikin-software-solutions/crypto-price-bot` on every push to `main`
+and on every `vX.Y.Z` git tag — nothing to build on your side.
+
+Requires only Docker + Docker Compose.
 
 ```bash
-cp .env.example .env
-# fill in TELEGRAM_BOT_TOKEN, TELEGRAM_CHANNEL_ID, LIVECOINWATCH_API_KEY
+mkdir -p /opt/crypto-price-bot && cd /opt/crypto-price-bot
 
+# Pull the published compose file and the example env template.
+curl -sSL https://raw.githubusercontent.com/Zaikin-Software-Solutions/crypto-price-bot/main/docker-compose.yml -o docker-compose.yml
+curl -sSL https://raw.githubusercontent.com/Zaikin-Software-Solutions/crypto-price-bot/main/.env.example -o .env
+
+# Edit .env: TELEGRAM_BOT_TOKEN, TELEGRAM_CHANNEL_ID, LIVECOINWATCH_API_KEY are required.
+$EDITOR .env
+
+docker compose pull
+docker compose up -d
+docker compose logs -f
+```
+
+Pin to a specific version by replacing `:latest` in `docker-compose.yml` with
+`:1.0.0` (or `:1` / `:1.0` for floating major / minor). To update later:
+`docker compose pull && docker compose up -d`.
+
+### B. Build with Docker from sources (for local development)
+
+Requires Docker + Docker Compose + `git`.
+
+```bash
+git clone https://github.com/Zaikin-Software-Solutions/crypto-price-bot.git
+cd crypto-price-bot
+cp .env.example .env  # then fill it in
+docker compose -f docker-compose.yml -f docker-compose.build.yml up -d --build
+docker compose logs -f
+```
+
+### C. Run directly with Python (no Docker)
+
+Requires Python 3.12+ and [`uv`](https://docs.astral.sh/uv/)
+(`curl -LsSf https://astral.sh/uv/install.sh | sh`).
+
+```bash
+git clone https://github.com/Zaikin-Software-Solutions/crypto-price-bot.git
+cd crypto-price-bot
+cp .env.example .env  # then fill it in
 uv sync --extra dev
 uv run python -m crypto_price_bot
 ```
 
-Or via Make:
-
-```bash
-make install
-make run
-```
-
-### Docker
-
-```bash
-cp .env.example .env  # and fill it in
-docker compose up -d --build
-docker compose logs -f
-```
+Or via Make: `make install && make run`.
 
 ## Configuration
 
