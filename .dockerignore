@@ -15,7 +15,6 @@ __pycache__
 .env.local
 .env.*.local
 tests
-README.md
 CHANGELOG.md
 docker-compose.yml
 Dockerfile
